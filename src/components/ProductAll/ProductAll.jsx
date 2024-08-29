@@ -3,17 +3,19 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Loading from '@/components/Loading/Loading';
-import ProductCard from '@/components/ProductCard/page';
+import ProductCard from '@/components/ProductCard/ProductCard';
 
-export default function ProductAll({ category }) {
+export default function ProductAll({ category, customer }) {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const endpoint = category ? `/api/products/${category}` : '/api/products';
-                const response = await fetch(endpoint);
+                const endpoint = category
+                    ? `/api/products/${customer}/${category}`
+                    : `/api/products/${customer}`;
+                const response = await fetch(endpoint, { next: { revalidate: 3600 } });
 
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -28,7 +30,7 @@ export default function ProductAll({ category }) {
         };
 
         fetchProducts();
-    }, [category]);
+    }, [customer, category]);
 
     if (loading) {
         return <Loading />;

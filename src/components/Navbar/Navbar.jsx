@@ -18,6 +18,7 @@ export default function NavBar() {
     }, []);
 
     const categoryHombres = ['chaquetas', 'pantalones', 'camisetas'];
+    const hombre = 'hombre';
 
     return (
         <header className="h-[121px] border-b-[1px] border-[#EDEDED]">
@@ -125,39 +126,39 @@ export default function NavBar() {
                     </li>
                     <li
                         className={`pl-[10px] pr-[10px] font-[600] text-[14px] leading-[50px] uppercase cursor-pointer ${
-                            pathname === '/shop/mujeres'
+                            pathname === '/products/mujeres'
                                 ? 'text-[#8e99d1]'
                                 : 'text-[#172983] hover:text-[#8e99d1]'
                         }`}
                     >
-                        <Link href="#">MUJERES</Link>
+                        <Link href="/products/mujeres">MUJERES</Link>
                     </li>
                     <li
                         className={`pl-[10px] pr-[10px] font-[600] text-[14px] leading-[50px] uppercase cursor-pointer ${
-                            pathname === '/accesorios'
+                            pathname === '/products/accesorios'
                                 ? 'text-[#8e99d1]'
                                 : 'text-[#172983] hover:text-[#8e99d1]'
                         }`}
                     >
-                        <Link href="#">ACCESORIOS</Link>
+                        <Link href="/products/accesorios">ACCESORIOS</Link>
                     </li>
                     <li
                         className={`pl-[10px] pr-[10px] font-[600] text-[14px] leading-[50px] uppercase cursor-pointer ${
-                            pathname === '/sale'
+                            pathname === '/products/sale'
                                 ? 'text-[#8e99d1]'
                                 : 'text-[#d23232] hover:text-[#8e99d1]'
                         }`}
                     >
-                        <Link href="#">SALE</Link>
+                        <Link href="/products/sale">SALE</Link>
                     </li>
                     <li
                         className={`pl-[10px] pr-[10px] font-[600] text-[14px] leading-[50px] uppercase cursor-pointer ${
-                            pathname === '/outlet'
+                            pathname === '/products/outlet'
                                 ? 'text-[#8e99d1]'
                                 : 'text-[#d23232] hover:text-[#8e99d1]'
                         }`}
                     >
-                        <Link href="#">OUTLET</Link>
+                        <Link href="/products/outlet">OUTLET</Link>
                     </li>
                 </ul>
             </div>

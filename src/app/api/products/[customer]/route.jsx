@@ -3,15 +3,15 @@ import { db } from '@/config/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 
 export async function GET(req, { params }) {
-    const { category } = params;
+    const { customer } = params;
 
-    if (!category) {
+    if (!customer) {
         return NextResponse.json({ error: 'Category is required' }, { status: 400 });
     }
 
     try {
         const productsCollection = collection(db, 'products');
-        const q = query(productsCollection, where('category', '==', category));
+        const q = query(productsCollection, where('customer', '==', customer));
 
         const productsSnapshot = await getDocs(q);
         const products = productsSnapshot.docs.map((doc) => ({
