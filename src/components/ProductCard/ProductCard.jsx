@@ -23,7 +23,6 @@ export default function ProductCard({ nombre, precio, img, id, category, custome
                         {nombre}
                     </h1>
                 </Link>
-                <p>{customer}</p>
             </div>
             <div className="py-1">
                 <p className="text-left text-[#172983] text-[13px] font-[700]">$ {precio}</p>

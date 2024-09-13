@@ -4,13 +4,17 @@ import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { ToastContainer, toast } from 'react-toastify';
 import QuantityButton from '@/components/QuantityButton/QuantityButton';
 import Loading from '@/components/Loading/Loading';
+import { useCartContext } from '@/context/CartContext';
 
 export default function ProductDetail() {
-    const [isOpen, setIsOpen] = useState(false);
+    const { addToCart } = useCartContext();
     const { category, id } = useParams();
     const [itemDetail, setItemDetail] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [quantityInStock, setQuantityInStock] = useState(0);
     const customer = 'hombres';
 
     useEffect(() => {
@@ -27,6 +31,7 @@ export default function ProductDetail() {
 
                 if (response.ok) {
                     setItemDetail(data.product);
+                    setQuantityInStock(data.product.stock);
                 } else {
                     console.error('Error fetching product:', data.error);
                 }
@@ -47,6 +52,29 @@ export default function ProductDetail() {
         );
     }
 
+    const handleAddToCart = (quantity) => {
+        if (quantity > quantityInStock) {
+            toast.error('No hay suficiente stock disponible.');
+            return;
+        }
+
+        addToCart({
+            id: id,
+            name: itemDetail.nombre,
+            price: itemDetail.precio,
+            img: itemDetail.img,
+            description: itemDetail.description,
+            customer: itemDetail.customer,
+            category: itemDetail.category,
+            quantity,
+        });
+
+        setQuantityInStock((prevStock) => prevStock - quantity);
+        toast.success(`Agregaste ${quantity} ${quantity === 1 ? 'unidad' : 'unidades'} al carrito`);
+    };
+
+    const toggleOpen = () => setIsOpen(!isOpen);
+
     return (
         <div className="grid grid-cols-2 mt-[60px]">
             <div className="col-span-1 flex justify-end">
@@ -55,6 +83,7 @@ export default function ProductDetail() {
                     alt="Prenda de Vestir"
                     height={650}
                     width={550}
+                    priority={true}
                     className="h-[650px] w-[550px] object-cover"
                 />
             </div>
@@ -110,11 +139,15 @@ export default function ProductDetail() {
                     </li>
                 </ul>
 
-                <QuantityButton valorInicial={1} stock={itemDetail.stock} />
+                <QuantityButton
+                    valorInicial={1}
+                    stock={quantityInStock}
+                    addToCart={handleAddToCart}
+                />
 
                 <div className="flex">
                     <Link
-                        href={'/'}
+                        href="/products/hombres"
                         className="border-[1px] border-[#EDEDED] h-[50px] w-[210px] flex justify-center items-center text-[16px] bg-[#fff] text-[#172983] hover:bg-[#2F3C92] hover:text-[#ffffff] mt-[20px] mr-[10px]"
                     >
                         <svg
@@ -134,7 +167,7 @@ export default function ProductDetail() {
                         Seguir comprando
                     </Link>
                     <Link
-                        href={'/cart'}
+                        href="/cart"
                         className="border-[1px] border-[#EDEDED] h-[50px] w-[210px] flex justify-center items-center text-[16px] bg-[#D23232] text-[#ffffff] hover:bg-[#2F3C92] hover:text-[#ffffff] mt-[20px]"
                     >
                         <svg
@@ -172,7 +205,7 @@ export default function ProductDetail() {
                     </svg>
                     <p
                         className="text-[12px] font-bold text-[#333333] ml-[10px] cursor-pointer"
-                        onClick={() => setIsOpen(!isOpen)}
+                        onClick={toggleOpen}
                     >
                         MÉTODOS Y COSTOS DE ENVÍO
                     </p>
@@ -183,7 +216,7 @@ export default function ProductDetail() {
                         strokeWidth={1.5}
                         stroke="currentColor"
                         className="size-4 ml-[210px] cursor-pointer"
-                        onClick={() => setIsOpen(!isOpen)}
+                        onClick={toggleOpen}
                     >
                         <path
                             strokeLinecap="round"
@@ -207,10 +240,11 @@ export default function ProductDetail() {
                 <div className="flex border-t-[1px] border-b-[1px] border-[#EDEDED] h-[50px] w-[430px] items-center">
                     <p className="text-[#555555] text-[12px] font-normal leading-[20px]">
                         Cantidad en Stock:{' '}
-                        <span className="font-bold ml-[40px]">{itemDetail.stock}</span>
+                        <span className="font-bold ml-[40px]">{quantityInStock}</span>
                     </p>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 }

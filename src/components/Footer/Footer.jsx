@@ -3,7 +3,7 @@ export default function Footer() {
     const beneficios = '/beneficios10.jpg';
     return (
         <>
-            <footer className="container mx-auto h-[50px] border-t-[1px] border-[#ededed] mt-[80px] max-w-[1200px]">
+            <footer className="container mx-auto h-[50px] border-t-[1px] border-[#ededed] mt-[80px] max-w-[1200px] footer-retail">
                 <div className="grid grid-cols-6 py-[20px] pl-[20px]">
                     <div className="col-span-1">
                         <h1 className="text-left text-[16] font-bold uppercase text-[#d23232]">

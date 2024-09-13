@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-export default function QuantityButton({ stock, valorInicial }) {
+export default function QuantityButton({ stock, valorInicial, addToCart }) {
     const [quantity, setQuantity] = useState(valorInicial);
 
     const incrementQuantity = () => {
@@ -16,6 +16,10 @@ export default function QuantityButton({ stock, valorInicial }) {
         if (quantity > valorInicial) {
             setQuantity(quantity - 1);
         }
+    };
+
+    const handleAddToCart = () => {
+        addToCart(quantity);
     };
 
     return (
@@ -50,7 +54,10 @@ export default function QuantityButton({ stock, valorInicial }) {
                 </button>
             </div>
 
-            <button className="border-[1px] border-[#EDEDED] h-[50px] w-[250px] flex justify-center items-center text-[16px] bg-[#172983] text-[#ffffff] hover:bg-[#2F3C92] hover:text-[#ffffff] ml-[10px]">
+            <button
+                onClick={handleAddToCart}
+                className="border-[1px] border-[#EDEDED] h-[50px] w-[250px] flex justify-center items-center text-[16px] bg-[#172983] text-[#ffffff] hover:bg-[#2F3C92] hover:text-[#ffffff] ml-[10px]"
+            >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

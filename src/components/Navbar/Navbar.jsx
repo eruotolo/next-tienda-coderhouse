@@ -21,12 +21,12 @@ export default function NavBar() {
     const hombre = 'hombre';
 
     return (
-        <header className="h-[121px] border-b-[1px] border-[#EDEDED]">
+        <header className="h-[121px] border-b-[1px] border-[#EDEDED] header-retail">
             <div className="container mx-auto max-w-[1200px]">
                 <div className="flex items-center justify-between border-b-[1px] border-[#172983] h-[70px]">
                     <div className="w-2/12 hidden md:flex">
                         <Link
-                            href="#"
+                            href="/contact"
                             className="uppercase text-[10px] md:text-[12px] text-[#172983]"
                         >
                             ¿Necesitas Ayuda?
